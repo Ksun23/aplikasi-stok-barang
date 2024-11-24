@@ -31,7 +31,7 @@ export default function Home() {
             <div className="w-screen h-screen ">
                 <Navbar />
                 <div id="beranda" className="grid grid-cols-1 md:grid-cols-2 grid-rows-1 px-[2cm] py-[2cm]">
-                    <div className="cols-span-1 pt-[2cm] md:pt-[5cm] text-center md:text-left">
+                    <div className="cols-span-1 pt-[2cm] md:pt-[5cm]">
                         <div className="max-w-4xl mx-auto md:mx-0">
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-[#0092BD]">
                                 Kelola Stok Barang Anda dengan Mudah
