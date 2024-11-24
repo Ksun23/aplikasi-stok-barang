@@ -8,6 +8,11 @@
   color: white;
 }
 
+.btn-bgk {
+  background-color: #FAB420;
+  color: white;
+}
+
 .custom-bg:hover {
   background-color: #0092BD;
   color: white;
