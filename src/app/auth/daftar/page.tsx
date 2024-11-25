@@ -76,20 +76,6 @@ const page = () => {
             />
           </div>
 
-          {/* Konfirmasi Kata Sandi */}
-          <div className="mb-6">
-            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
-              Konfirmasi Kata Sandi
-            </label>
-            <input
-              type="password"
-              id="confirm-password"
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#0092BD] focus:border-[#0092BD]"
-              placeholder="Konfirmasi kata sandi"
-              required
-            />
-          </div>
-
           {/* Submit Button */}
           <div className="mb-4">
             <button
