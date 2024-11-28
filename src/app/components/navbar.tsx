@@ -4,15 +4,53 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { data: session, status } = useSession();
 
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
             element.scrollIntoView({ behavior: "smooth" });
         }
+    };
+
+    const handleLogout = async () => {
+        await signOut({ callbackUrl: '/' });
+    };
+
+    // Mengubah AuthButtons agar tidak menggunakan li
+    const AuthButtons = () => {
+        if (status === "loading") {
+            return <div>Loading...</div>;
+        }
+
+        if (session) {
+            return (
+                <div className="flex flex-row gap-4 font-semibold items-center">
+                    <span className="text-[#0092BD]">Hi, {session.user?.name}</span>
+                    <button 
+                        onClick={handleLogout}
+                        className="btn btn-error text-white border-none transition duration-200"
+                    >
+                        Keluar
+                    </button>
+                </div>
+            );
+        }
+
+        return (
+            <div className="flex flex-row gap-4 font-semibold">
+                <Link className="btn btn-bg border-none btn-bgs transition duration-200" href="/auth/masuk">
+                    Masuk
+                </Link>
+                <Link className="btn btn-bgk border-none custom-bg transition duration-200" href="/auth/daftar">
+                    Daftar
+                </Link>
+            </div>
+        );
     };
 
     return (
@@ -24,18 +62,18 @@ const Navbar = () => {
                 </a>
             </div>
 
+            {/* Desktop Menu */}
             <div className="flex-none lg:flex hidden">
                 <ul className="menu menu-horizontal px-1 flex items-center gap-2 text-base font-semibold">
-                    <li className="flex flex-row">
-                        <motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("beranda")}>Beranda</motion.a>
-                        <motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("fitur")}>Fitur</motion.a>
-                        <motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("tentang")}>Tentang</motion.a>
-                        <motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("cara-kerja")}>Cara Kerja</motion.a>
-                    </li>
-                    <li className="flex flex-row gap-4 font-semibold">
-                        <Link className="btn btn-bg border-none  btn-bgs transition duration-200" href="/auth/masuk">Masuk</Link>
-                        <Link className="btn btn-bgk border-none custom-bg transition duration-200" href="/auth/daftar">Daftar</Link>
-                    </li>
+                    <div className="flex flex-row">
+                        <motion.a className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" onClick={() => scrollToSection("beranda")}>Beranda</motion.a>
+                        <motion.a className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" onClick={() => scrollToSection("fitur")}>Fitur</motion.a>
+                        <motion.a className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" onClick={() => scrollToSection("tentang")}>Tentang</motion.a>
+                        <motion.a className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" onClick={() => scrollToSection("cara-kerja")}>Cara Kerja</motion.a>
+                    </div>
+                    <div className="ml-4">
+                        <AuthButtons />
+                    </div>
                 </ul>
             </div>
 
@@ -50,16 +88,15 @@ const Navbar = () => {
 
             {/* Menu Dropdown untuk Mobile */}
             <div className={`lg:hidden ${menuOpen ? "block" : "hidden"} absolute top-[4rem] right-0 w-full bg-white shadow-md`}>
-                <ul className="menu menu-compact p-4 text-base font-semibold">
-                    <li><motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("beranda")}>Beranda</motion.a></li>
-                    <li><motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("fitur")}>Fitur</motion.a></li>
-                    <li><motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("tentang")}>Tentang</motion.a></li>
-                    <li><motion.a className="hover:text-[#0092BD]" onClick={() => scrollToSection("cara-kerja")}>Cara Kerja</motion.a></li>
-                    <li className="flex flex-row gap-4 font-semibold mt-5 justify-end">
-                        <Link className="btn btn-bg border-none btn-bgs transition duration-200" href="/auth/masuk">Masuk</Link>
-                        <Link className="btn btn-bgk border-none custom-bg transition duration-200" href="/auth/daftar">Daftar</Link>
-                    </li>
-                </ul>
+                <div className="p-4 space-y-4">
+                    <motion.a className="block hover:text-[#0092BD] py-2" onClick={() => scrollToSection("beranda")}>Beranda</motion.a>
+                    <motion.a className="block hover:text-[#0092BD] py-2" onClick={() => scrollToSection("fitur")}>Fitur</motion.a>
+                    <motion.a className="block hover:text-[#0092BD] py-2" onClick={() => scrollToSection("tentang")}>Tentang</motion.a>
+                    <motion.a className="block hover:text-[#0092BD] py-2" onClick={() => scrollToSection("cara-kerja")}>Cara Kerja</motion.a>
+                    <div className="mt-5">
+                        <AuthButtons />
+                    </div>
+                </div>
             </div>
         </div>
     );

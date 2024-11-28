@@ -1,9 +1,49 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client"
+
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { useState } from "react"
+import { signIn } from "next-auth/react"
+import { LoginSchema } from "@/utils/validations"
+import { useRouter } from "next/navigation"
 
 
 const page = () => {
+
+    const router = useRouter()
+    const [error, setError] = useState<string | null>(null)
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+            const formData = new FormData(e.currentTarget)
+            const email = formData.get("email") as string
+            const password = formData.get("password") as string
+
+            const validatedFields = LoginSchema.safeParse({ email, password })
+
+            if (!validatedFields.success) {
+                return setError("Invalid fields")
+            }
+
+            const result = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            })
+
+            if (result?.error) {
+                setError("Invalid credentials")
+            } else {
+                router.push("/")
+            }
+        } catch (error) {
+            setError("Something went wrong")
+        }
+    }
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 relative">
             {/* Back to Home Button */}
@@ -31,7 +71,8 @@ const page = () => {
                 </div>
 
                 {/* Form */}
-                <form>
+                <form onSubmit={onSubmit}>
+                {error && <div className="text-red-500">{error}</div>}
                     {/* Email */}
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -40,6 +81,7 @@ const page = () => {
                         <input
                             type="email"
                             id="email"
+                            name="email"
                             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#0092BD] focus:border-[#0092BD]"
                             placeholder="Masukkan email Anda"
                             required
@@ -54,6 +96,7 @@ const page = () => {
                         <input
                             type="password"
                             id="password"
+                            name="password"
                             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#0092BD] focus:border-[#0092BD]"
                             placeholder="Masukkan kata sandi Anda"
                             required

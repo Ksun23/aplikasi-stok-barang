@@ -1,8 +1,35 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client"
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { registerSchema, RegisterSchema } from '@/utils/validations';
+import { useState } from 'react';
 
+const Register = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+  });
 
-const page = () => {
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const onSubmit = async (data: RegisterSchema) => {
+    setServerError(null);
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      setServerError('Something went wrong');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 relative">
       {/* Back to Home Button */}
@@ -20,8 +47,7 @@ const page = () => {
         </svg>
         Beranda
       </Link>
-
-
+      
       <div className="max-w-md w-full bg-white p-6 rounded-lg shadow-md">
         {/* Header */}
         <div className="text-center mb-6 flex flex-col items-center">
@@ -33,7 +59,7 @@ const page = () => {
         </div>
 
         {/* Form */}
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/* Nama Lengkap */}
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -42,10 +68,12 @@ const page = () => {
             <input
               type="text"
               id="name"
+              {...register('name')}
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#0092BD] focus:border-[#0092BD]"
               placeholder="Masukkan nama lengkap Anda"
               required
             />
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
           </div>
 
           {/* Email */}
@@ -56,10 +84,12 @@ const page = () => {
             <input
               type="email"
               id="email"
+              {...register('email')}
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#0092BD] focus:border-[#0092BD]"
               placeholder="Masukkan email Anda"
               required
             />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
           </div>
 
           {/* Kata Sandi */}
@@ -70,11 +100,15 @@ const page = () => {
             <input
               type="password"
               id="password"
+              {...register('password')}
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#0092BD] focus:border-[#0092BD]"
               placeholder="Masukkan kata sandi"
               required
             />
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
           </div>
+
+          {serverError && <p className="text-red-500 text-sm mb-4">{serverError}</p>}
 
           {/* Submit Button */}
           <div className="mb-4">
@@ -98,8 +132,7 @@ const page = () => {
         </form>
       </div>
     </div>
-
   )
 }
 
-export default page
+export default Register
