@@ -8,14 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, RegisterSchema } from '@/utils/validations';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Metadata } from 'next';
-
-
-export const metadata: Metadata = {
-  title: "Stokbarang.id | Daftar",
-  description: "Daftar akun baru dan mulai kelola stok barang Anda dengan mudah."
-};
-
 
 
 const Register = () => {

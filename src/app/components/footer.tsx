@@ -1,4 +1,4 @@
-
+import Image from "next/image"
 
 const Footer = () => {
     return (
@@ -6,7 +6,7 @@ const Footer = () => {
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
                 {/* Logo dan Deskripsi */}
                 <div>
-                    <h2 className="text-2xl font-bold mb-4">StokBarang.id</h2>
+                    <h2 className="text-2xl font-bold mb-4 flex gap-2"><Image src={"/image/warehouse.jpg"} alt="" width={30} height={30}></Image>StokBarang.id</h2>
                     <p className="text-gray-400">
                         Solusi terbaik untuk pengelolaan stok barang Anda. Kami membantu
                         bisnis Anda menjadi lebih efisien dan terorganisir.
