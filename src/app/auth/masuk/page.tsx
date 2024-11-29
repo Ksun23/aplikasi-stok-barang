@@ -9,7 +9,13 @@ import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { LoginSchema } from "@/utils/validations"
 import { useRouter } from "next/navigation"
+import { Metadata } from "next"
 
+
+export const metadata: Metadata = {
+    title: "Stokbarang.id | Masuk",
+    description: "Masuk ke akun Anda dan kelola stok barang dengan mudah."
+}
 
 const page = () => {
 
