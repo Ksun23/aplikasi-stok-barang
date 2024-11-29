@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server"
 
 import { PrismaClient } from '@prisma/client';
@@ -46,8 +47,8 @@ export async function POST(request: Request) {
       },
     });
 
-    // Respons sukses
-    return NextResponse.json({ message: 'User created successfully', user }, { status: 201 } );
+    // Respons berhasil
+    return NextResponse.json({ message: 'User registered' }, { status: 201 });
 
   } catch (error) {
     if (error instanceof z.ZodError) {

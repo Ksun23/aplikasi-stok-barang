@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, RegisterSchema } from '@/utils/validations';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
@@ -14,9 +15,12 @@ const Register = () => {
   });
 
   const [serverError, setServerError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   const onSubmit = async (data: RegisterSchema) => {
     setServerError(null);
+    setSuccessMessage(null);
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -25,6 +29,15 @@ const Register = () => {
         },
         body: JSON.stringify(data),
       });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage(result.message);
+        router.push('/auth/masuk');
+      } else {
+        setServerError(result.message || 'Something went wrong');
+      }
     } catch (error) {
       setServerError('Something went wrong');
     }
@@ -109,6 +122,7 @@ const Register = () => {
           </div>
 
           {serverError && <p className="text-red-500 text-sm mb-4">{serverError}</p>}
+          {successMessage && <p className="text-green-500 text-sm mt-1">{successMessage}</p>}
 
           {/* Submit Button */}
           <div className="mb-4">

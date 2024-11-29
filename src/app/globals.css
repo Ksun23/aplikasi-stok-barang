@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  overflow-x: hidden;
+}
 
 .btn-bg {
   background-color: #0092BD;
@@ -29,4 +32,4 @@
 
 .h-black:hover {
   color: black;
-} 
+}
