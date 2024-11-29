@@ -54,7 +54,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="navbar bg-base-100 px-6 md:px-[2cm] fixed w-full overflow-x-hidden">
+        <div className="navbar bg-base-100 px-6 md:px-[2cm] fixed">
             <div className="flex-1">
                 <a className="flex items-center text-2xl md:text-3xl font-bold gap-3">
                     <Image src="/image/warehouse.jpg" className="" width={50} height={50} alt="Warehouse Logo" />
