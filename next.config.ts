@@ -1,7 +1,19 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+module.exports = {
+  reactStrictMode: true,
+  async redirects() {
+    return [
+      {
+        source: '/dashboard',
+        destination: '/auth/masuk',
+        permanent: false,
+        has: [
+          {
+            type: 'cookie',
+            key: 'next-auth.session-token',
+            value: '',
+          },
+        ],
+      },
+    ];
+  },
 };
-
-export default nextConfig;

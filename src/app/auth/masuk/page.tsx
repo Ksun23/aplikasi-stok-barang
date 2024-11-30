@@ -8,11 +8,13 @@ import Link from 'next/link'
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { LoginSchema } from "@/utils/validations"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
-const page = () => {
+const LoginPage = () => {
 
     const router = useRouter()
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl');
     const [error, setError] = useState<string | null>(null)
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,12 +34,15 @@ const page = () => {
                 email,
                 password,
                 redirect: false,
+                callbackUrl: callbackUrl as string || '/dashboard',
             })
 
             if (result?.error) {
                 setError("Invalid credentials")
             } else {
-                router.push("/")
+                if (result) {
+                    router.push(result.url || '/dashboard')
+                }
             }
         } catch (error) {
             setError("Something went wrong")
@@ -133,4 +138,4 @@ const page = () => {
     )
 }
 
-export default page
+export default LoginPage

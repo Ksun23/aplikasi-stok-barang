@@ -21,7 +21,6 @@ const Navbar = () => {
         await signOut({ callbackUrl: '/' });
     };
 
-    // Mengubah AuthButtons agar tidak menggunakan li
     const AuthButtons = () => {
         if (status === "loading") {
             return <div>Loading...</div>;
@@ -70,6 +69,7 @@ const Navbar = () => {
                         <motion.a className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" onClick={() => scrollToSection("fitur")}>Fitur</motion.a>
                         <motion.a className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" onClick={() => scrollToSection("tentang")}>Tentang</motion.a>
                         <motion.a className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" onClick={() => scrollToSection("cara-kerja")}>Cara Kerja</motion.a>
+                        <Link className="hover:text-[#0092BD] px-4 py-2 cursor-pointer" href={"/dashboard"}>Dasbor</Link>
                     </div>
                     <div className="ml-4">
                         <AuthButtons />
@@ -93,6 +93,7 @@ const Navbar = () => {
                     <motion.a className="block hover:text-[#0092BD] py-2" onClick={() => scrollToSection("fitur")}>Fitur</motion.a>
                     <motion.a className="block hover:text-[#0092BD] py-2" onClick={() => scrollToSection("tentang")}>Tentang</motion.a>
                     <motion.a className="block hover:text-[#0092BD] py-2" onClick={() => scrollToSection("cara-kerja")}>Cara Kerja</motion.a>
+                    <Link className="block hover:text-[#0092BD] py-2" href={"/dashboard"}>Dasbor</Link>
                     <div className="mt-5">
                         <AuthButtons />
                     </div>
